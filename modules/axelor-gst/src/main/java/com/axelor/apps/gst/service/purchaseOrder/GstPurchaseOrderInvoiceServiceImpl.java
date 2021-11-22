@@ -3,6 +3,7 @@ package com.axelor.apps.gst.service.purchaseOrder;
 import com.axelor.apps.account.db.Invoice;
 import com.axelor.apps.account.db.InvoiceLine;
 import com.axelor.apps.account.db.repo.InvoiceRepository;
+import com.axelor.apps.base.service.app.AppServiceImpl;
 import com.axelor.apps.businessproject.service.PurchaseOrderInvoiceProjectServiceImpl;
 import com.axelor.apps.gst.service.GstInvoiceLineService;
 import com.axelor.apps.gst.service.GstInvoiceService;
@@ -23,6 +24,10 @@ public class GstPurchaseOrderInvoiceServiceImpl extends PurchaseOrderInvoiceProj
   @Override
   @Transactional(rollbackOn = {Exception.class})
   public Invoice generateInvoice(PurchaseOrder purchaseOrder) throws AxelorException {
+	  
+	  if (!Beans.get(AppServiceImpl.class).isApp("gst")) {
+	      return super.generateInvoice(purchaseOrder);
+	    }
 
     Invoice invoice = super.generateInvoice(purchaseOrder);
     invoice.setNetCgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "cgst"));
@@ -36,6 +41,10 @@ public class GstPurchaseOrderInvoiceServiceImpl extends PurchaseOrderInvoiceProj
   @Override
   public List<InvoiceLine> createInvoiceLine(Invoice invoice, PurchaseOrderLine purchaseOrderLine)
       throws AxelorException {
+	  
+	  if (!Beans.get(AppServiceImpl.class).isApp("gst")) {
+	      return super.createInvoiceLine(invoice, purchaseOrderLine);
+	    }
 	  
     List<InvoiceLine> invoiceLines = super.createInvoiceLine(invoice, purchaseOrderLine);
 

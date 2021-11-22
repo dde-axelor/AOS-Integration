@@ -11,10 +11,12 @@ import com.axelor.apps.base.service.CurrencyService;
 import com.axelor.apps.base.service.PriceListService;
 import com.axelor.apps.base.service.ProductCompanyService;
 import com.axelor.apps.base.service.app.AppBaseService;
+import com.axelor.apps.base.service.app.AppServiceImpl;
 import com.axelor.apps.businessproject.service.InvoiceLineProjectServiceImpl;
 import com.axelor.apps.gst.service.GstInvoiceLineService;
 import com.axelor.apps.purchase.service.PurchaseProductService;
 import com.axelor.exception.AxelorException;
+import com.axelor.inject.Beans;
 import com.google.inject.Inject;
 import java.util.Map;
 
@@ -48,7 +50,9 @@ public class InvoiceLineGstServiceImpl extends InvoiceLineProjectServiceImpl {
   @Override
   public Map<String, Object> fillProductInformation(Invoice invoice, InvoiceLine invoiceLine)
       throws AxelorException {
-
+	  if (!Beans.get(AppServiceImpl.class).isApp("gst")) {
+	      return super.fillProductInformation(invoice, invoiceLine);
+	    }
     Product product = invoiceLine.getProduct();
     InvoiceLine il =service.getGstAmounts(invoice, invoiceLine.getQty().multiply(product.getSalePrice()), product.getGstRate());
 

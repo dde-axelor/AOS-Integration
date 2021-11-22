@@ -9,11 +9,11 @@
 
     <extend target="//field[@name='unit']">
       <insert position="after">
-        <field name="hsbn" readonly="true"/>
-        <field name="gstRate" readonly="true"/>
-        <field name="igst" readonly="true"/>
-        <field name="cgst" readonly="true"/>
-        <field name="sgst" readonly="true"/>
+        <field name="hsbn" readonly="true" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
+        <field name="gstRate" readonly="true" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
+        <field name="igst" readonly="true" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
+        <field name="cgst" readonly="true" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
+        <field name="sgst" readonly="true" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
       </insert>
     </extend>
 

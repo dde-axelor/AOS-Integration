@@ -7,7 +7,7 @@
     id="city-gst-from" extension="true">
     <extend target="//panel[@name='mainPanel']//field[@name='name']">
       <insert position="after">
-        <field name="state" required="true"/>
+        <field name="state" required="true" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
       </insert>
     </extend>
   </form>

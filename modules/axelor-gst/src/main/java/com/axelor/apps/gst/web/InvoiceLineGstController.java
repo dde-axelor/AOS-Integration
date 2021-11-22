@@ -3,8 +3,10 @@ package com.axelor.apps.gst.web;
 import com.axelor.apps.account.db.Invoice;
 import com.axelor.apps.account.db.InvoiceLine;
 import com.axelor.apps.account.web.InvoiceLineController;
+import com.axelor.apps.base.service.app.AppServiceImpl;
 import com.axelor.apps.gst.service.GstInvoiceLineService;
 import com.axelor.exception.AxelorException;
+import com.axelor.inject.Beans;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 import com.axelor.rpc.Context;
@@ -18,7 +20,9 @@ public class InvoiceLineGstController extends InvoiceLineController {
   public void compute(ActionRequest request, ActionResponse response) throws AxelorException {
 
     super.compute(request, response);
-
+    
+    if (Beans.get(AppServiceImpl.class).isApp("gst")) {
+	    
     Context context = request.getContext();
 
     InvoiceLine invoiceLine = context.asType(InvoiceLine.class);
@@ -32,5 +36,6 @@ public class InvoiceLineGstController extends InvoiceLineController {
     response.setValue("igst", il.getIgst());
     response.setValue("sgst", il.getSgst());
     response.setValue("cgst", il.getCgst());
+    }
   }
 }

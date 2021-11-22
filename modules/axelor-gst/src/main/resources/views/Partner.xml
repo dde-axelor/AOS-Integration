@@ -9,7 +9,7 @@
     id="party-gst-form" extension="true" width="large">
     <extend target="panel[@title='Partner Details']//field[@name='department']">
       <insert position="after">
-        <field name="gstin"/>
+        <field name="gstin" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
       </insert>
     </extend>
   </form>

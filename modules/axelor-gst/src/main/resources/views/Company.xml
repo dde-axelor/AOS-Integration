@@ -7,7 +7,7 @@
     id="company-gst-form" extension="true">
     <extend target="//field[@name='code']">
       <insert position="after">
-        <field name="gstin"/>
+        <field name="gstin" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
       </insert>
     </extend>
   </form>

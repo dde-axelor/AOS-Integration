@@ -8,9 +8,9 @@
 
     <extend target="//field[@name='inTaxTotal']">
       <insert position="before">
-        <field name="netIgst" readonly="true"/>
-        <field name="netCgst" readonly="true"/>
-        <field name="netSgst" readonly="true"/>
+        <field name="netIgst" readonly="true" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
+        <field name="netCgst" readonly="true" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
+        <field name="netSgst" readonly="true" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
       </insert>
     </extend>
 

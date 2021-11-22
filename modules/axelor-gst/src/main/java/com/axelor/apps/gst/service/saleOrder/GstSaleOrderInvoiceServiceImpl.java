@@ -5,6 +5,7 @@ import com.axelor.apps.account.db.InvoiceLine;
 import com.axelor.apps.account.db.repo.InvoiceRepository;
 import com.axelor.apps.account.service.invoice.InvoiceService;
 import com.axelor.apps.base.service.app.AppBaseService;
+import com.axelor.apps.base.service.app.AppServiceImpl;
 import com.axelor.apps.businessproject.service.SaleOrderInvoiceProjectServiceImpl;
 import com.axelor.apps.businessproject.service.app.AppBusinessProjectService;
 import com.axelor.apps.gst.service.GstInvoiceLineService;
@@ -17,6 +18,7 @@ import com.axelor.apps.sale.service.saleorder.SaleOrderWorkflowServiceImpl;
 import com.axelor.apps.stock.db.repo.StockMoveRepository;
 import com.axelor.apps.supplychain.service.app.AppSupplychainService;
 import com.axelor.exception.AxelorException;
+import com.axelor.inject.Beans;
 import com.google.inject.Inject;
 import java.math.BigDecimal;
 import java.util.List;
@@ -57,7 +59,11 @@ public class GstSaleOrderInvoiceServiceImpl extends SaleOrderInvoiceProjectServi
       List<SaleOrderLine> saleOrderLineList,
       Map<Long, BigDecimal> qtyToInvoiceMap)
       throws AxelorException {
-
+	  
+	  if (!Beans.get(AppServiceImpl.class).isApp("gst")) {
+	      return super.createInvoice(saleOrder, saleOrderLineList, qtyToInvoiceMap);
+	    }
+	  
     Invoice invoice = super.createInvoice(saleOrder, saleOrderLineList, qtyToInvoiceMap);
 
     invoice.setNetCgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "cgst"));
@@ -71,6 +77,11 @@ public class GstSaleOrderInvoiceServiceImpl extends SaleOrderInvoiceProjectServi
   public List<InvoiceLine> createInvoiceLine(
       Invoice invoice, SaleOrderLine saleOrderLine, BigDecimal qtyToInvoice)
       throws AxelorException {
+	  
+	  if (!Beans.get(AppServiceImpl.class).isApp("gst")) {
+	      return super.createInvoiceLine(invoice, saleOrderLine, qtyToInvoice);
+	    }
+	  
     List<InvoiceLine> invoiceLines = super.createInvoiceLine(invoice, saleOrderLine, qtyToInvoice);
     for (InvoiceLine invoiceLine : invoiceLines) {
       InvoiceLine il = serviceInvoiceLine.getGstAmounts(invoice, invoiceLine.getExTaxTotal(),invoiceLine.getProduct().getGstRate());

@@ -9,7 +9,7 @@
     width="large" id="address-gst-form" extension="true">
     <extend target="//field[@name='city']">
       <insert position="after">
-        <field name="state" canNew="true"/>
+        <field name="state" canNew="true" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
       </insert>
     </extend>
   </form>
