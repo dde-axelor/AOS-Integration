@@ -5,7 +5,7 @@
 
   <form name="invoice-form" title="Invoice" model="com.axelor.apps.account.db.Invoice"
     id="invoice-gst-form" extension="true">
-    
+
     <extend target="//field[@name='inTaxTotal']">
       <insert position="before">
         <field name="netIgst" readonly="true"/>
@@ -13,7 +13,7 @@
         <field name="netSgst" readonly="true"/>
       </insert>
     </extend>
-    
+
   </form>
 
 

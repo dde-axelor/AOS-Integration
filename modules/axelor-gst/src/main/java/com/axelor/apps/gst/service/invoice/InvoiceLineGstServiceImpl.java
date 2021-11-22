@@ -45,23 +45,23 @@ public class InvoiceLineGstServiceImpl extends InvoiceLineProjectServiceImpl {
 
   @Inject private GstInvoiceLineService service;
 
-    @Override
-    public Map<String, Object> fillProductInformation(Invoice invoice, InvoiceLine invoiceLine)
-        throws AxelorException {
-  
-      Product product = invoiceLine.getProduct();
-      InvoiceLine il=service.getGstAmounts(invoice, invoiceLine.getQty().multiply(product.getSalePrice()),product.getGstRate());	
-    	
-      System.out.println(product.getSalePrice().multiply(invoiceLine.getQty()));
-      Map<String, Object> productInformation = super.fillProductInformation(invoice, invoiceLine);
-      productInformation.put("gstRate", product.getGstRate());
-      productInformation.put("hsbn", product.getHsbn());
-      productInformation.put("igst", il.getIgst());
-      productInformation.put("sgst", il.getSgst());
-      productInformation.put("cgst", il.getCgst());
-      System.out.println(product);
-      return productInformation;
-    }
+  @Override
+  public Map<String, Object> fillProductInformation(Invoice invoice, InvoiceLine invoiceLine)
+      throws AxelorException {
 
+    Product product = invoiceLine.getProduct();
+    InvoiceLine il =
+        service.getGstAmounts(
+            invoice, invoiceLine.getQty().multiply(product.getSalePrice()), product.getGstRate());
+
+    System.out.println(product.getSalePrice().multiply(invoiceLine.getQty()));
+    Map<String, Object> productInformation = super.fillProductInformation(invoice, invoiceLine);
+    productInformation.put("gstRate", product.getGstRate());
+    productInformation.put("hsbn", product.getHsbn());
+    productInformation.put("igst", il.getIgst());
+    productInformation.put("sgst", il.getSgst());
+    productInformation.put("cgst", il.getCgst());
+    System.out.println(product);
+    return productInformation;
+  }
 }
-

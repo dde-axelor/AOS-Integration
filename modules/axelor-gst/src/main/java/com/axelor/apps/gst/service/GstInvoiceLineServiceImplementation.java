@@ -39,16 +39,15 @@ public class GstInvoiceLineServiceImplementation implements GstInvoiceLineServic
       invoiceLine.setIgst(BigDecimal.ZERO);
     }
 
-
     return invoiceLine;
   }
 
-@Override
-public InvoiceLine getGstAmounts(Invoice invoice, BigDecimal netPrice, BigDecimal gstRate) {
-	
-	InvoiceLine invoiceLine=new InvoiceLine();
-	
-	BigDecimal igst = netPrice.multiply(gstRate.divide(BigDecimal.valueOf(100)));
+  @Override
+  public InvoiceLine getGstAmounts(Invoice invoice, BigDecimal netPrice, BigDecimal gstRate) {
+
+    InvoiceLine invoiceLine = new InvoiceLine();
+
+    BigDecimal igst = netPrice.multiply(gstRate.divide(BigDecimal.valueOf(100)));
 
     BigDecimal gst = igst.divide(BigDecimal.valueOf(2));
 
@@ -67,7 +66,6 @@ public InvoiceLine getGstAmounts(Invoice invoice, BigDecimal netPrice, BigDecima
       invoiceLine.setIgst(BigDecimal.ZERO);
     }
 
-
     return invoiceLine;
-}
+  }
 }

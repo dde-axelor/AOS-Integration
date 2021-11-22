@@ -2,12 +2,12 @@
 <object-views xmlns="http://axelor.com/xml/ns/object-views"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
-  
+
   <selection name="gst-rate-selection">
-  	<option value="5">5%</option>
-  	<option value="12">12%</option>
-  	<option value="18">18%</option>
-  	<option value="28">28%</option>
+    <option value="5">5%</option>
+    <option value="12">12%</option>
+    <option value="18">18%</option>
+    <option value="28">28%</option>
   </selection>
 
   <form name="product-category-form" title="Product category"
