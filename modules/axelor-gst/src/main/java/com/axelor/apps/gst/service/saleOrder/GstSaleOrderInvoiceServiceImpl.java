@@ -5,7 +5,7 @@ import com.axelor.apps.account.db.InvoiceLine;
 import com.axelor.apps.account.db.repo.InvoiceRepository;
 import com.axelor.apps.account.service.invoice.InvoiceService;
 import com.axelor.apps.base.service.app.AppBaseService;
-import com.axelor.apps.base.service.app.AppServiceImpl;
+import com.axelor.apps.base.service.app.AppService;
 import com.axelor.apps.businessproject.service.SaleOrderInvoiceProjectServiceImpl;
 import com.axelor.apps.businessproject.service.app.AppBusinessProjectService;
 import com.axelor.apps.gst.service.GstInvoiceLineService;
@@ -60,7 +60,7 @@ public class GstSaleOrderInvoiceServiceImpl extends SaleOrderInvoiceProjectServi
       Map<Long, BigDecimal> qtyToInvoiceMap)
       throws AxelorException {
 	  
-	  if (!Beans.get(AppServiceImpl.class).isApp("gst")) {
+	  if (!Beans.get(AppService.class).isApp("gst")) {
 	      return super.createInvoice(saleOrder, saleOrderLineList, qtyToInvoiceMap);
 	    }
 	  
@@ -78,7 +78,7 @@ public class GstSaleOrderInvoiceServiceImpl extends SaleOrderInvoiceProjectServi
       Invoice invoice, SaleOrderLine saleOrderLine, BigDecimal qtyToInvoice)
       throws AxelorException {
 	  
-	  if (!Beans.get(AppServiceImpl.class).isApp("gst")) {
+	  if (!Beans.get(AppService.class).isApp("gst")) {
 	      return super.createInvoiceLine(invoice, saleOrderLine, qtyToInvoice);
 	    }
 	  

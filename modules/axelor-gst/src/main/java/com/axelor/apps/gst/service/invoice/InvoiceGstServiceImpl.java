@@ -12,7 +12,7 @@ import com.axelor.apps.account.service.invoice.factory.VentilateFactory;
 import com.axelor.apps.account.service.move.MoveToolService;
 import com.axelor.apps.base.service.PartnerService;
 import com.axelor.apps.base.service.alarm.AlarmEngineService;
-import com.axelor.apps.base.service.app.AppServiceImpl;
+import com.axelor.apps.base.service.app.AppService;
 import com.axelor.apps.cash.management.service.InvoiceEstimatedPaymentService;
 import com.axelor.apps.cash.management.service.InvoiceServiceManagementImpl;
 import com.axelor.apps.gst.service.GstInvoiceService;
@@ -55,7 +55,7 @@ public class InvoiceGstServiceImpl extends InvoiceServiceManagementImpl {
 
   @Override
   public Invoice compute(final Invoice invoice) throws AxelorException {
-	  if (!Beans.get(AppServiceImpl.class).isApp("gst")) {
+	  if (!Beans.get(AppService.class).isApp("gst")) {
 	      return super.compute(invoice);
 	    }
     Invoice invoice1 = super.compute(invoice);
