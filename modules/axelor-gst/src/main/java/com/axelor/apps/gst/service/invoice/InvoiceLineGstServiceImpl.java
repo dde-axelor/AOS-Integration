@@ -50,9 +50,7 @@ public class InvoiceLineGstServiceImpl extends InvoiceLineProjectServiceImpl {
       throws AxelorException {
 
     Product product = invoiceLine.getProduct();
-    InvoiceLine il =
-        service.getGstAmounts(
-            invoice, invoiceLine.getQty().multiply(product.getSalePrice()), product.getGstRate());
+    InvoiceLine il =service.getGstAmounts(invoice, invoiceLine.getQty().multiply(product.getSalePrice()), product.getGstRate());
 
     System.out.println(product.getSalePrice().multiply(invoiceLine.getQty()));
     Map<String, Object> productInformation = super.fillProductInformation(invoice, invoiceLine);

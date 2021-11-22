@@ -73,7 +73,7 @@ public class GstSaleOrderInvoiceServiceImpl extends SaleOrderInvoiceProjectServi
       throws AxelorException {
     List<InvoiceLine> invoiceLines = super.createInvoiceLine(invoice, saleOrderLine, qtyToInvoice);
     for (InvoiceLine invoiceLine : invoiceLines) {
-      InvoiceLine il = serviceInvoiceLine.getGstAmounts(invoice, invoiceLine);
+      InvoiceLine il = serviceInvoiceLine.getGstAmounts(invoice, invoiceLine.getExTaxTotal(),invoiceLine.getProduct().getGstRate());
       if (saleOrderLine != null) {
         invoiceLine.setGstRate(saleOrderLine.getProduct().getGstRate());
         invoiceLine.setIgst(il.getIgst());
