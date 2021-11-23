@@ -58,10 +58,14 @@ public class InvoiceGstServiceImpl extends InvoiceServiceManagementImpl {
 	  if (!Beans.get(AppService.class).isApp("gst")) {
 	      return super.compute(invoice);
 	    }
+	invoice.setInvoiceLineList(service.getInvoiceLineLists(invoice.getInvoiceLineList(), invoice));
     Invoice invoice1 = super.compute(invoice);
     invoice1.setNetCgst(service.getAmounts(invoice.getInvoiceLineList(), "cgst"));
     invoice1.setNetIgst(service.getAmounts(invoice.getInvoiceLineList(), "igst"));
     invoice1.setNetSgst(service.getAmounts(invoice.getInvoiceLineList(), "sgst"));
+    	
     return invoice1;
   }
+  
+ 
 }
