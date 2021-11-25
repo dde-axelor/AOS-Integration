@@ -25,7 +25,6 @@ public class GstInvoiceLineServiceImplementation implements GstInvoiceLineServic
       } else invoiceLine.setIgst(igst);
       return invoiceLine;
     } 
-    
     invoiceLine.setSgst(BigDecimal.ZERO);
     invoiceLine.setCgst(BigDecimal.ZERO);
     invoiceLine.setIgst(BigDecimal.ZERO);
@@ -50,12 +49,12 @@ public class GstInvoiceLineServiceImplementation implements GstInvoiceLineServic
 
         invoiceLine.setCgst(gst);
       } else invoiceLine.setIgst(igst);
-    } else {
-      invoiceLine.setSgst(BigDecimal.ZERO);
-      invoiceLine.setCgst(BigDecimal.ZERO);
-      invoiceLine.setIgst(BigDecimal.ZERO);
+      return invoiceLine;
     }
-
+    invoiceLine.setSgst(BigDecimal.ZERO);
+    invoiceLine.setCgst(BigDecimal.ZERO);
+    invoiceLine.setIgst(BigDecimal.ZERO);
+    
     return invoiceLine;
   }
 }
