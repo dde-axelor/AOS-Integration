@@ -2,18 +2,9 @@ package com.axelor.apps.gst.service;
 
 import com.axelor.apps.account.db.Invoice;
 import com.axelor.apps.account.db.InvoiceLine;
-import com.axelor.apps.gst.db.State;
 import java.math.BigDecimal;
 
 public class GstInvoiceLineServiceImplementation implements GstInvoiceLineService {
-
-  @Override
-  public boolean checkState(State s1, State s2) {
-
-    if (s1.getName().equalsIgnoreCase(s2.getName())) return true;
-
-    return false;
-  }
 
   @Override
   public InvoiceLine getGstAmounts(Invoice invoice, InvoiceLine invoiceLine) {
@@ -26,18 +17,18 @@ public class GstInvoiceLineServiceImplementation implements GstInvoiceLineServic
 
     if (invoice.getCompany().getAddress().getState() != null
         && invoice.getAddress().getState() != null) {
-      if (checkState(
-          invoice.getCompany().getAddress().getState(), invoice.getAddress().getState())) {
+      if (invoice.getCompany().getAddress().getState().getName().equalsIgnoreCase(invoice.getAddress().getState().getName())) {
 
         invoiceLine.setSgst(gst);
 
         invoiceLine.setCgst(gst);
       } else invoiceLine.setIgst(igst);
-    } else {
-      invoiceLine.setSgst(BigDecimal.ZERO);
-      invoiceLine.setCgst(BigDecimal.ZERO);
-      invoiceLine.setIgst(BigDecimal.ZERO);
-    }
+      return invoiceLine;
+    } 
+    
+    invoiceLine.setSgst(BigDecimal.ZERO);
+    invoiceLine.setCgst(BigDecimal.ZERO);
+    invoiceLine.setIgst(BigDecimal.ZERO);
 
     return invoiceLine;
   }
@@ -53,8 +44,7 @@ public class GstInvoiceLineServiceImplementation implements GstInvoiceLineServic
 
     if (invoice.getCompany().getAddress().getState() != null
         && invoice.getAddress().getState() != null) {
-      if (checkState(
-          invoice.getCompany().getAddress().getState(), invoice.getAddress().getState())) {
+      if (invoice.getCompany().getAddress().getState().getName().equalsIgnoreCase(invoice.getAddress().getState().getName())) {
 
         invoiceLine.setSgst(gst);
 

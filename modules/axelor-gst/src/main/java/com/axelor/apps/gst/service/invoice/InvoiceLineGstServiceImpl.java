@@ -58,14 +58,12 @@ public class InvoiceLineGstServiceImpl extends InvoiceLineProjectServiceImpl {
         service.getGstAmounts(
             invoice, invoiceLine.getQty().multiply(product.getSalePrice()), product.getGstRate());
 
-    System.out.println(product.getSalePrice().multiply(invoiceLine.getQty()));
     Map<String, Object> productInformation = super.fillProductInformation(invoice, invoiceLine);
     productInformation.put("gstRate", product.getGstRate());
     productInformation.put("hsbn", product.getHsbn());
     productInformation.put("igst", il.getIgst());
     productInformation.put("sgst", il.getSgst());
     productInformation.put("cgst", il.getCgst());
-    System.out.println(product);
     return productInformation;
   }
 }

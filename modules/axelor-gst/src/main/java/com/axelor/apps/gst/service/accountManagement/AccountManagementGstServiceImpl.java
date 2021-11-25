@@ -2,6 +2,7 @@ package com.axelor.apps.gst.service.accountManagement;
 
 import com.axelor.apps.account.db.Tax;
 import com.axelor.apps.account.db.TaxLine;
+import com.axelor.apps.account.db.repo.TaxLineRepository;
 import com.axelor.apps.account.db.repo.TaxRepository;
 import com.axelor.apps.account.service.AccountManagementServiceAccountImpl;
 import com.axelor.apps.base.db.Company;
@@ -31,18 +32,8 @@ public class AccountManagementGstServiceImpl extends AccountManagementServiceAcc
         || !Beans.get(AppService.class).isApp("gst")) {
       return super.getProductTax(product, company, isPurchase, configObject);
     } else {
-      List<Tax> taxList = Beans.get(TaxRepository.class).all().fetch();
-      double gst = product.getGstRate().doubleValue();
-      Tax tax = null;
-      for (Tax tx : taxList) {
-        if (tx.getName().equalsIgnoreCase("GST")) {
-          List<TaxLine> taxLineList = tx.getTaxLineList();
-          for (TaxLine tl : taxLineList) {
-            if (gst == tl.getValue().multiply(BigDecimal.valueOf(100)).doubleValue()) tax = tx;
-          }
-        }
-      }
-      return tax;
+      TaxLine taxLine = Beans.get(TaxLineRepository.class).all().filter("self.tax.name=? and self.value=?", "GST",product.getGstRate().divide(BigDecimal.valueOf(100))).fetchOne();
+      return taxLine.getTax();
     }
   }
 }

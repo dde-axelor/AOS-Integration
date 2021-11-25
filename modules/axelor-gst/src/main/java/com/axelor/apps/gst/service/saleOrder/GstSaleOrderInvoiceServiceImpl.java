@@ -60,16 +60,12 @@ public class GstSaleOrderInvoiceServiceImpl extends SaleOrderInvoiceProjectServi
       Map<Long, BigDecimal> qtyToInvoiceMap)
       throws AxelorException {
 
-    if (!Beans.get(AppService.class).isApp("gst")) {
-      return super.createInvoice(saleOrder, saleOrderLineList, qtyToInvoiceMap);
-    }
-
     Invoice invoice = super.createInvoice(saleOrder, saleOrderLineList, qtyToInvoiceMap);
-
-    invoice.setNetCgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "cgst"));
-    invoice.setNetSgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "sgst"));
-    invoice.setNetIgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "igst"));
-
+    if (Beans.get(AppService.class).isApp("gst")) {
+    	invoice.setNetCgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "cgst"));
+    	invoice.setNetSgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "sgst"));
+    	invoice.setNetIgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "igst"));
+    }
     return invoice;
   }
 
@@ -78,21 +74,19 @@ public class GstSaleOrderInvoiceServiceImpl extends SaleOrderInvoiceProjectServi
       Invoice invoice, SaleOrderLine saleOrderLine, BigDecimal qtyToInvoice)
       throws AxelorException {
 
-    if (!Beans.get(AppService.class).isApp("gst")) {
-      return super.createInvoiceLine(invoice, saleOrderLine, qtyToInvoice);
-    }
-
-    List<InvoiceLine> invoiceLines = super.createInvoiceLine(invoice, saleOrderLine, qtyToInvoice);
-    for (InvoiceLine invoiceLine : invoiceLines) {
-      InvoiceLine il =
-          serviceInvoiceLine.getGstAmounts(
-              invoice, invoiceLine.getExTaxTotal(), invoiceLine.getProduct().getGstRate());
-      if (saleOrderLine != null) {
-        invoiceLine.setGstRate(saleOrderLine.getProduct().getGstRate());
-        invoiceLine.setIgst(il.getIgst());
-        invoiceLine.setSgst(il.getSgst());
-        invoiceLine.setCgst(il.getCgst());
-      }
+	List<InvoiceLine> invoiceLines = super.createInvoiceLine(invoice, saleOrderLine, qtyToInvoice);
+    if (Beans.get(AppService.class).isApp("gst")) {
+    	for (InvoiceLine invoiceLine : invoiceLines) {
+    		InvoiceLine il =
+    				serviceInvoiceLine.getGstAmounts(
+    						invoice, invoiceLine.getExTaxTotal(), invoiceLine.getProduct().getGstRate());
+    		if (saleOrderLine != null) {
+    			invoiceLine.setGstRate(saleOrderLine.getProduct().getGstRate());
+    			invoiceLine.setIgst(il.getIgst());
+    			invoiceLine.setSgst(il.getSgst());
+    			invoiceLine.setCgst(il.getCgst());
+    		}
+    	}
     }
     return invoiceLines;
   }
