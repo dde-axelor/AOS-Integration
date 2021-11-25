@@ -20,22 +20,22 @@ public class InvoiceLineGstController extends InvoiceLineController {
   public void compute(ActionRequest request, ActionResponse response) throws AxelorException {
 
     super.compute(request, response);
-    
+
     if (Beans.get(AppService.class).isApp("gst")) {
-	    
-    Context context = request.getContext();
 
-    InvoiceLine invoiceLine = context.asType(InvoiceLine.class);
-    Invoice invoice = this.getInvoice(context);
+      Context context = request.getContext();
 
-    InvoiceLine il =
-        service.getGstAmounts(
-            invoice,
-            invoiceLine.getQty().multiply(invoiceLine.getPrice()),
-            invoiceLine.getProduct().getGstRate());
-    response.setValue("igst", il.getIgst());
-    response.setValue("sgst", il.getSgst());
-    response.setValue("cgst", il.getCgst());
+      InvoiceLine invoiceLine = context.asType(InvoiceLine.class);
+      Invoice invoice = this.getInvoice(context);
+
+      InvoiceLine il =
+          service.getGstAmounts(
+              invoice,
+              invoiceLine.getQty().multiply(invoiceLine.getPrice()),
+              invoiceLine.getProduct().getGstRate());
+      response.setValue("igst", il.getIgst());
+      response.setValue("sgst", il.getSgst());
+      response.setValue("cgst", il.getCgst());
     }
   }
 }

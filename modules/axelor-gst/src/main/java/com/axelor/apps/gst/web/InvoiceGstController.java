@@ -8,14 +8,14 @@ import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
 
 public class InvoiceGstController {
-	
-	public void updateGst(ActionRequest request, ActionResponse response)
-	{
-		Invoice invoice = request.getContext().asType(Invoice.class);
-		try {
-			response.setValue("invoiceLineList",Beans.get(InvoiceService.class).compute(invoice).getInvoiceLineList());
-		} catch (AxelorException e) {
-			e.printStackTrace();
-		}
-	}
+
+  public void updateGst(ActionRequest request, ActionResponse response) {
+    Invoice invoice = request.getContext().asType(Invoice.class);
+    try {
+      response.setValue(
+          "invoiceLineList", Beans.get(InvoiceService.class).compute(invoice).getInvoiceLineList());
+    } catch (AxelorException e) {
+      e.printStackTrace();
+    }
+  }
 }

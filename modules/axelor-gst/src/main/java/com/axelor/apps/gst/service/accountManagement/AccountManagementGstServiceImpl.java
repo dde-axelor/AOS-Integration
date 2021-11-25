@@ -25,11 +25,12 @@ public class AccountManagementGstServiceImpl extends AccountManagementServiceAcc
   @Override
   protected Tax getProductTax(
       Product product, Company company, boolean isPurchase, int configObject) {
-	  
-    if (product.getGstRate() == null || product.getGstRate() == BigDecimal.ZERO || !Beans.get(AppService.class).isApp("gst")) {
+
+    if (product.getGstRate() == null
+        || product.getGstRate() == BigDecimal.ZERO
+        || !Beans.get(AppService.class).isApp("gst")) {
       return super.getProductTax(product, company, isPurchase, configObject);
-    }
-    else {
+    } else {
       List<Tax> taxList = Beans.get(TaxRepository.class).all().fetch();
       double gst = product.getGstRate().doubleValue();
       Tax tax = null;

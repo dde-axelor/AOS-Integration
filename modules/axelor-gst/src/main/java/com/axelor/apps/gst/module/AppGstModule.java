@@ -38,7 +38,5 @@ public class AppGstModule extends AxelorModule {
     bind(AccountManagementServiceAccountImpl.class).to(AccountManagementGstServiceImpl.class);
 
     bind(InvoiceLineController.class).to(InvoiceLineGstController.class);
-    
- //   bind(InvoiceController.class).to(InvoiceGstController.class);
   }
 }

@@ -8,6 +8,6 @@ import java.util.List;
 public interface GstInvoiceService {
 
   public BigDecimal getAmounts(List<InvoiceLine> il, String str);
-  
+
   public List<InvoiceLine> getInvoiceLineLists(List<InvoiceLine> ilList, Invoice invoice);
 }

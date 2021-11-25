@@ -16,7 +16,8 @@
 
     <extend target="//field[@name='code']">
       <insert position="after">
-        <field name="gstRate" selection="gst-rate-selection" if-module="axelor-gst" if="__config__.app.isApp('gst')"/>
+        <field name="gstRate" selection="gst-rate-selection" if-module="axelor-gst"
+          if="__config__.app.isApp('gst')"/>
       </insert>
     </extend>
 

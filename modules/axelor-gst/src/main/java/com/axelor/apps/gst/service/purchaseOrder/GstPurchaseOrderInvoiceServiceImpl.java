@@ -24,10 +24,10 @@ public class GstPurchaseOrderInvoiceServiceImpl extends PurchaseOrderInvoiceProj
   @Override
   @Transactional(rollbackOn = {Exception.class})
   public Invoice generateInvoice(PurchaseOrder purchaseOrder) throws AxelorException {
-	  
-	  if (!Beans.get(AppService.class).isApp("gst")) {
-	      return super.generateInvoice(purchaseOrder);
-	    }
+
+    if (!Beans.get(AppService.class).isApp("gst")) {
+      return super.generateInvoice(purchaseOrder);
+    }
 
     Invoice invoice = super.generateInvoice(purchaseOrder);
     invoice.setNetCgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "cgst"));
@@ -41,22 +41,23 @@ public class GstPurchaseOrderInvoiceServiceImpl extends PurchaseOrderInvoiceProj
   @Override
   public List<InvoiceLine> createInvoiceLine(Invoice invoice, PurchaseOrderLine purchaseOrderLine)
       throws AxelorException {
-	  
-	  if (!Beans.get(AppService.class).isApp("gst")) {
-	      return super.createInvoiceLine(invoice, purchaseOrderLine);
-	    }
-	  
+
+    if (!Beans.get(AppService.class).isApp("gst")) {
+      return super.createInvoiceLine(invoice, purchaseOrderLine);
+    }
+
     List<InvoiceLine> invoiceLines = super.createInvoiceLine(invoice, purchaseOrderLine);
 
     for (InvoiceLine invoiceLine : invoiceLines) {
-    	
-      InvoiceLine il = serviceInvoiceLine.getGstAmounts(invoice, invoiceLine.getExTaxTotal(),invoiceLine.getProduct().getGstRate());
+
+      InvoiceLine il =
+          serviceInvoiceLine.getGstAmounts(
+              invoice, invoiceLine.getExTaxTotal(), invoiceLine.getProduct().getGstRate());
       if (purchaseOrderLine != null) {
         invoiceLine.setGstRate(purchaseOrderLine.getProduct().getGstRate());
         invoiceLine.setIgst(il.getIgst());
         invoiceLine.setSgst(il.getSgst());
         invoiceLine.setCgst(il.getCgst());
-
       }
     }
     return invoiceLines;
