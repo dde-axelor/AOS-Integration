@@ -4,6 +4,7 @@ import com.axelor.app.AxelorModule;
 import com.axelor.apps.account.service.AccountManagementServiceAccountImpl;
 import com.axelor.apps.account.web.InvoiceLineController;
 import com.axelor.apps.businessproject.service.InvoiceLineProjectServiceImpl;
+import com.axelor.apps.businessproject.service.ProjectStockMoveInvoiceServiceImpl;
 import com.axelor.apps.businessproject.service.PurchaseOrderInvoiceProjectServiceImpl;
 import com.axelor.apps.businessproject.service.SaleOrderInvoiceProjectServiceImpl;
 import com.axelor.apps.cash.management.service.InvoiceServiceManagementImpl;
@@ -16,6 +17,7 @@ import com.axelor.apps.gst.service.invoice.InvoiceGstServiceImpl;
 import com.axelor.apps.gst.service.invoice.InvoiceLineGstServiceImpl;
 import com.axelor.apps.gst.service.purchaseOrder.GstPurchaseOrderInvoiceServiceImpl;
 import com.axelor.apps.gst.service.saleOrder.GstSaleOrderInvoiceServiceImpl;
+import com.axelor.apps.gst.service.stockMoves.GstStockMovesInvoiceServiceImpl;
 import com.axelor.apps.gst.web.InvoiceLineGstController;
 
 public class AppGstModule extends AxelorModule {
@@ -38,5 +40,7 @@ public class AppGstModule extends AxelorModule {
     bind(AccountManagementServiceAccountImpl.class).to(AccountManagementGstServiceImpl.class);
 
     bind(InvoiceLineController.class).to(InvoiceLineGstController.class);
+    
+    bind(ProjectStockMoveInvoiceServiceImpl.class).to(GstStockMovesInvoiceServiceImpl.class);
   }
 }

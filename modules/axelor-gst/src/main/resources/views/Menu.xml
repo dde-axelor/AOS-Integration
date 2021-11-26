@@ -2,12 +2,14 @@
 <object-views xmlns="http://axelor.com/xml/ns/object-views"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.4.xsd">
-  
-  <menuitem title="States" name="admin-root-organisation-territory-state" parent="admin-root-organisation-territory" action="admin.root.organisation.territory.state"/>
-  
-  <action-view name="admin.root.organisation.territory.state" title="States" model="com.axelor.apps.gst.db.State">
-  	<view type="grid" name="state-grid"/>
-  	<view type="form" name="state-form"/>
-  </action-view> 
-  
+
+  <menuitem title="States" name="admin-root-organisation-territory-state"
+    parent="admin-root-organisation-territory" action="admin.root.organisation.territory.state"/>
+
+  <action-view name="admin.root.organisation.territory.state" title="States"
+    model="com.axelor.apps.gst.db.State">
+    <view type="grid" name="state-grid"/>
+    <view type="form" name="state-form"/>
+  </action-view>
+
 </object-views>

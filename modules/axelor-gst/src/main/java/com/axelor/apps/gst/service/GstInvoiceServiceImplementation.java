@@ -36,9 +36,11 @@ public class GstInvoiceServiceImplementation implements GstInvoiceService {
   public List<InvoiceLine> getInvoiceLineLists(List<InvoiceLine> ilList, Invoice invoice) {
 
     List<InvoiceLine> invoiceLineList = new ArrayList<InvoiceLine>();
-    for (InvoiceLine il : ilList) {
-      invoiceLineList.add(service.getGstAmounts(invoice, il));
-    }
+   if(ilList != null) {
+	   for (InvoiceLine il : ilList) {
+		      invoiceLineList.add(service.getGstAmounts(invoice, il));
+		    }
+   }
     return invoiceLineList;
   }
 }

@@ -17,20 +17,25 @@ public class GstInvoiceLineServiceImplementation implements GstInvoiceLineServic
 
     if (invoice.getCompany().getAddress().getState() != null
         && invoice.getAddress().getState() != null) {
-      if (invoice.getCompany().getAddress().getState().getName().equalsIgnoreCase(invoice.getAddress().getState().getName())) {
+      if (invoice
+          .getCompany()
+          .getAddress()
+          .getState()
+          .getName()
+          .equalsIgnoreCase(invoice.getAddress().getState().getName())) {
 
         invoiceLine.setSgst(gst);
 
         invoiceLine.setCgst(gst);
       } else invoiceLine.setIgst(igst);
       return invoiceLine;
-    } 
-    
-    invoiceLine.setSgst(BigDecimal.ZERO);
-    invoiceLine.setCgst(BigDecimal.ZERO);
-    invoiceLine.setIgst(BigDecimal.ZERO);
+    } else {
+      invoiceLine.setSgst(BigDecimal.ZERO);
+      invoiceLine.setCgst(BigDecimal.ZERO);
+      invoiceLine.setIgst(BigDecimal.ZERO);
 
-    return invoiceLine;
+      return invoiceLine;
+    }
   }
 
   @Override
@@ -44,17 +49,22 @@ public class GstInvoiceLineServiceImplementation implements GstInvoiceLineServic
 
     if (invoice.getCompany().getAddress().getState() != null
         && invoice.getAddress().getState() != null) {
-      if (invoice.getCompany().getAddress().getState().getName().equalsIgnoreCase(invoice.getAddress().getState().getName())) {
+      if (invoice
+          .getCompany()
+          .getAddress()
+          .getState()
+          .getName()
+          .equalsIgnoreCase(invoice.getAddress().getState().getName())) {
 
         invoiceLine.setSgst(gst);
 
         invoiceLine.setCgst(gst);
       } else invoiceLine.setIgst(igst);
-    } else {
-      invoiceLine.setSgst(BigDecimal.ZERO);
-      invoiceLine.setCgst(BigDecimal.ZERO);
-      invoiceLine.setIgst(BigDecimal.ZERO);
+      return invoiceLine;
     }
+    invoiceLine.setSgst(BigDecimal.ZERO);
+    invoiceLine.setCgst(BigDecimal.ZERO);
+    invoiceLine.setIgst(BigDecimal.ZERO);
 
     return invoiceLine;
   }

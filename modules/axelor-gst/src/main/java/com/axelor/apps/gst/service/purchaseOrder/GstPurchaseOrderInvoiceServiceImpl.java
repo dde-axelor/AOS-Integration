@@ -27,11 +27,11 @@ public class GstPurchaseOrderInvoiceServiceImpl extends PurchaseOrderInvoiceProj
 
     Invoice invoice = super.generateInvoice(purchaseOrder);
     if (Beans.get(AppService.class).isApp("gst")) {
-    	
-    	invoice.setNetCgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "cgst"));
-    	invoice.setNetSgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "sgst"));
-    	invoice.setNetIgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "igst"));
-    	invoice = Beans.get(InvoiceRepository.class).save(invoice);
+
+      invoice.setNetCgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "cgst"));
+      invoice.setNetSgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "sgst"));
+      invoice.setNetIgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "igst"));
+      invoice = Beans.get(InvoiceRepository.class).save(invoice);
     }
     return invoice;
   }
@@ -42,18 +42,18 @@ public class GstPurchaseOrderInvoiceServiceImpl extends PurchaseOrderInvoiceProj
 
     List<InvoiceLine> invoiceLines = super.createInvoiceLine(invoice, purchaseOrderLine);
     if (Beans.get(AppService.class).isApp("gst")) {
-    	for (InvoiceLine invoiceLine : invoiceLines) {
+      for (InvoiceLine invoiceLine : invoiceLines) {
 
-    		InvoiceLine il =
-    				serviceInvoiceLine.getGstAmounts(
-    						invoice, invoiceLine.getExTaxTotal(), invoiceLine.getProduct().getGstRate());
-    		if (purchaseOrderLine != null) {
-    			invoiceLine.setGstRate(purchaseOrderLine.getProduct().getGstRate());
-    			invoiceLine.setIgst(il.getIgst());
-    			invoiceLine.setSgst(il.getSgst());
-    			invoiceLine.setCgst(il.getCgst());
-    		}
-    	}
+        InvoiceLine il =
+            serviceInvoiceLine.getGstAmounts(
+                invoice, invoiceLine.getExTaxTotal(), invoiceLine.getProduct().getGstRate());
+        if (purchaseOrderLine != null) {
+          invoiceLine.setGstRate(purchaseOrderLine.getProduct().getGstRate());
+          invoiceLine.setIgst(il.getIgst());
+          invoiceLine.setSgst(il.getSgst());
+          invoiceLine.setCgst(il.getCgst());
+        }
+      }
     }
     return invoiceLines;
   }

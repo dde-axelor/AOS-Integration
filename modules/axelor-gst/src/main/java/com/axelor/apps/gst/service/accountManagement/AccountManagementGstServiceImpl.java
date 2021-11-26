@@ -3,7 +3,6 @@ package com.axelor.apps.gst.service.accountManagement;
 import com.axelor.apps.account.db.Tax;
 import com.axelor.apps.account.db.TaxLine;
 import com.axelor.apps.account.db.repo.TaxLineRepository;
-import com.axelor.apps.account.db.repo.TaxRepository;
 import com.axelor.apps.account.service.AccountManagementServiceAccountImpl;
 import com.axelor.apps.base.db.Company;
 import com.axelor.apps.base.db.Product;
@@ -13,7 +12,6 @@ import com.axelor.apps.base.service.tax.TaxService;
 import com.axelor.inject.Beans;
 import com.google.inject.Inject;
 import java.math.BigDecimal;
-import java.util.List;
 
 public class AccountManagementGstServiceImpl extends AccountManagementServiceAccountImpl {
 
@@ -26,13 +24,20 @@ public class AccountManagementGstServiceImpl extends AccountManagementServiceAcc
   @Override
   protected Tax getProductTax(
       Product product, Company company, boolean isPurchase, int configObject) {
-
+	  System.out.println(product.getGstRate());
     if (product.getGstRate() == null
-        || product.getGstRate() == BigDecimal.ZERO
+        || product.getGstRate().doubleValue() == 0
         || !Beans.get(AppService.class).isApp("gst")) {
       return super.getProductTax(product, company, isPurchase, configObject);
     } else {
-      TaxLine taxLine = Beans.get(TaxLineRepository.class).all().filter("self.tax.name=? and self.value=?", "GST",product.getGstRate().divide(BigDecimal.valueOf(100))).fetchOne();
+      TaxLine taxLine =
+          Beans.get(TaxLineRepository.class)
+              .all()
+              .filter(
+                  "self.tax.name=? and self.value=?",
+                  "GST",
+                  product.getGstRate().divide(BigDecimal.valueOf(100)))
+              .fetchOne();
       return taxLine.getTax();
     }
   }
