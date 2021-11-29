@@ -1,5 +1,9 @@
 package com.axelor.apps.gst.service.stockMoves;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Map;
+
 import com.axelor.apps.account.db.Invoice;
 import com.axelor.apps.account.db.InvoiceLine;
 import com.axelor.apps.account.db.repo.InvoiceLineRepository;
@@ -8,9 +12,7 @@ import com.axelor.apps.base.service.app.AppService;
 import com.axelor.apps.businessproject.service.ProjectStockMoveInvoiceServiceImpl;
 import com.axelor.apps.gst.service.GstInvoiceLineService;
 import com.axelor.apps.gst.service.GstInvoiceService;
-import com.axelor.apps.purchase.db.PurchaseOrder;
 import com.axelor.apps.purchase.db.repo.PurchaseOrderRepository;
-import com.axelor.apps.sale.db.SaleOrder;
 import com.axelor.apps.sale.db.repo.SaleOrderRepository;
 import com.axelor.apps.stock.db.StockMove;
 import com.axelor.apps.stock.db.StockMoveLine;
@@ -24,9 +26,6 @@ import com.axelor.exception.AxelorException;
 import com.axelor.inject.Beans;
 import com.google.inject.Inject;
 import com.google.inject.persist.Transactional;
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.Map;
 
 public class GstStockMovesInvoiceServiceImpl extends ProjectStockMoveInvoiceServiceImpl {
 
@@ -58,60 +57,24 @@ public class GstStockMovesInvoiceServiceImpl extends ProjectStockMoveInvoiceServ
         supplyChainConfigService,
         appSupplychainService);
   }
-
+  
   @Override
   @Transactional(rollbackOn = {Exception.class})
-  public Invoice createInvoiceFromSaleOrder(
-      StockMove stockMove, SaleOrder saleOrder, Map<Long, BigDecimal> qtyToInvoiceMap)
+  public Invoice createInvoice(
+      StockMove stockMove,
+      Integer operationSelect,
+      List<Map<String, Object>> stockMoveLineListContext)
       throws AxelorException {
-
-    Invoice invoice = super.createInvoiceFromSaleOrder(stockMove, saleOrder, qtyToInvoiceMap);
-
-    if (Beans.get(AppService.class).isApp("gst")) {
-      invoice.setNetCgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "cgst"));
-      invoice.setNetSgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "sgst"));
-      invoice.setNetIgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "igst"));
-      invoice = Beans.get(InvoiceRepository.class).save(invoice);
-    }
-
-    return invoice;
+	  Invoice invoice = super.createInvoice(stockMove, operationSelect, stockMoveLineListContext);
+	  if (Beans.get(AppService.class).isApp("gst")) {
+	      invoice.setNetCgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "cgst"));
+	      invoice.setNetSgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "sgst"));
+	      invoice.setNetIgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "igst"));
+	  }
+	  return invoice;
   }
 
-  @Override
-  @Transactional(rollbackOn = {Exception.class})
-  public Invoice createInvoiceFromPurchaseOrder(
-      StockMove stockMove, PurchaseOrder purchaseOrder, Map<Long, BigDecimal> qtyToInvoiceMap)
-      throws AxelorException {
-
-    Invoice invoice =
-        super.createInvoiceFromPurchaseOrder(stockMove, purchaseOrder, qtyToInvoiceMap);
-
-    if (Beans.get(AppService.class).isApp("gst")) {
-      invoice.setNetCgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "cgst"));
-      invoice.setNetSgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "sgst"));
-      invoice.setNetIgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "igst"));
-      invoice = Beans.get(InvoiceRepository.class).save(invoice);
-    }
-
-    return invoice;
-  }
-
-  @Override
-  @Transactional(rollbackOn = {Exception.class})
-  public Invoice createInvoiceFromOrderlessStockMove(
-      StockMove stockMove, Map<Long, BigDecimal> qtyToInvoiceMap) throws AxelorException {
-
-    Invoice invoice = super.createInvoiceFromOrderlessStockMove(stockMove, qtyToInvoiceMap);
-
-    if (Beans.get(AppService.class).isApp("gst")) {
-      invoice.setNetCgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "cgst"));
-      invoice.setNetSgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "sgst"));
-      invoice.setNetIgst(serviceInvoice.getAmounts(invoice.getInvoiceLineList(), "igst"));
-      invoice = Beans.get(InvoiceRepository.class).save(invoice);
-    }
-    return invoice;
-  }
-
+  
   @Override
   public List<InvoiceLine> createInvoiceLines(
       Invoice invoice,
