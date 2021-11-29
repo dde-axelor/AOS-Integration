@@ -15,9 +15,7 @@ public class GstInvoiceServiceImplementation implements GstInvoiceService {
   public BigDecimal getAmounts(List<InvoiceLine> il, String str) {
     List<BigDecimal> list = new ArrayList<BigDecimal>();
 
-    if (str.equalsIgnoreCase("netAmount")) {
-      for (InvoiceLine item : il) list.add(item.getExTaxTotal());
-    } else if (str.equalsIgnoreCase("igst")) {
+    if (str.equalsIgnoreCase("igst")) {
       for (InvoiceLine item : il) list.add(item.getIgst());
     } else if (str.equalsIgnoreCase("sgst")) {
       for (InvoiceLine item : il) list.add(item.getSgst());
@@ -36,11 +34,11 @@ public class GstInvoiceServiceImplementation implements GstInvoiceService {
   public List<InvoiceLine> getInvoiceLineLists(List<InvoiceLine> ilList, Invoice invoice) {
 
     List<InvoiceLine> invoiceLineList = new ArrayList<InvoiceLine>();
-   if(ilList != null) {
-	   for (InvoiceLine il : ilList) {
-		      invoiceLineList.add(service.getGstAmounts(invoice, il));
-		    }
-   }
+    if (ilList != null) {
+      for (InvoiceLine il : ilList) {
+        invoiceLineList.add(service.getGstAmounts(invoice, il));
+      }
+    }
     return invoiceLineList;
   }
 }

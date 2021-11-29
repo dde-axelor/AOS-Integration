@@ -16,26 +16,28 @@ public class GstInvoiceLineServiceImplementation implements GstInvoiceLineServic
     BigDecimal gst = igst.divide(BigDecimal.valueOf(2));
 
     if (invoice.getCompany().getAddress().getState() != null
-        && invoice.getAddress().getState() != null) {
-      if (invoice
-          .getCompany()
-          .getAddress()
-          .getState()
-          .getName()
-          .equalsIgnoreCase(invoice.getAddress().getState().getName())) {
+        && invoice.getAddress() != null) {
+      if(invoice.getAddress().getState() != null) {
+    	  if (invoice
+    	          .getCompany()
+    	          .getAddress()
+    	          .getState()
+    	          .getName()
+    	          .equalsIgnoreCase(invoice.getAddress().getState().getName())) {
 
-        invoiceLine.setSgst(gst);
+    	        invoiceLine.setSgst(gst);
 
-        invoiceLine.setCgst(gst);
-      } else invoiceLine.setIgst(igst);
-      return invoiceLine;
-    } else {
-      invoiceLine.setSgst(BigDecimal.ZERO);
-      invoiceLine.setCgst(BigDecimal.ZERO);
-      invoiceLine.setIgst(BigDecimal.ZERO);
-
-      return invoiceLine;
+    	        invoiceLine.setCgst(gst);
+    	      } else invoiceLine.setIgst(igst);
+    	  return invoiceLine;
+      }
+      
     }
+    invoiceLine.setSgst(BigDecimal.ZERO);
+    invoiceLine.setCgst(BigDecimal.ZERO);
+    invoiceLine.setIgst(BigDecimal.ZERO);
+
+    return invoiceLine;
   }
 
   @Override

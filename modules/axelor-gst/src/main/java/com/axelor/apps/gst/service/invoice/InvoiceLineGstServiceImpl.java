@@ -50,20 +50,20 @@ public class InvoiceLineGstServiceImpl extends InvoiceLineProjectServiceImpl {
   @Override
   public Map<String, Object> fillProductInformation(Invoice invoice, InvoiceLine invoiceLine)
       throws AxelorException {
-    if (!Beans.get(AppService.class).isApp("gst")) {
-      return super.fillProductInformation(invoice, invoiceLine);
-    }
-    Product product = invoiceLine.getProduct();
-    InvoiceLine il =
-        service.getGstAmounts(
-            invoice, invoiceLine.getQty().multiply(product.getSalePrice()), product.getGstRate());
 
     Map<String, Object> productInformation = super.fillProductInformation(invoice, invoiceLine);
-    productInformation.put("gstRate", product.getGstRate());
-    productInformation.put("hsbn", product.getHsbn());
-    productInformation.put("igst", il.getIgst());
-    productInformation.put("sgst", il.getSgst());
-    productInformation.put("cgst", il.getCgst());
+
+    if (Beans.get(AppService.class).isApp("gst")) {
+      Product product = invoiceLine.getProduct();
+      InvoiceLine il =
+          service.getGstAmounts(
+              invoice, invoiceLine.getQty().multiply(product.getSalePrice()), product.getGstRate());
+      productInformation.put("gstRate", product.getGstRate());
+      productInformation.put("hsbn", product.getHsbn());
+      productInformation.put("igst", il.getIgst());
+      productInformation.put("sgst", il.getSgst());
+      productInformation.put("cgst", il.getCgst());
+    }
     return productInformation;
   }
 }
